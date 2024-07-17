@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escala de Glasgow</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;700&display=swap');
+
+        body {
+            font-family: 'SF Pro Display', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            margin-bottom: 0;
+            font-size: 2.5em;
+        }
+
+        .container {
+            position: relative;
+            margin-top: 10px;
+            border-radius: 50%;
+            height: 96px;
+            width: 96px;
+            animation: rotate_3922 1.2s linear infinite;
+            background-color: #9b59b6;
+            background-image: linear-gradient(#9b59b6, #84cdfa, #5ad1cd);
+        }
+
+        .container span {
+            position: absolute;
+            border-radius: 50%;
+            height: 100%;
+            width: 100%;
+            background-color: #9b59b6;
+            background-image: linear-gradient(#9b59b6, #84cdfa, #5ad1cd);
+        }
+
+        .container span:nth-of-type(1) {
+            filter: blur(5px);
+        }
+
+        .container span:nth-of-type(2) {
+            filter: blur(10px);
+        }
+
+        .container span:nth-of-type(3) {
+            filter: blur(25px);
+        }
+
+        .container span:nth-of-type(4) {
+            filter: blur(50px);
+        }
+
+        .container::after {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background-color: #fff;
+            border: solid 5px #ffffff;
+            border-radius: 50%;
+        }
+
+        @keyframes rotate_3922 {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        table {
+            width: 100%;
+            max-width: 600px;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .result {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .dark-mode {
+            background-color: #333;
+            color: #f4f4f4;
+        }
+
+        .dark-mode th {
+            background-color: #444;
+        }
+
+        .toggle-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-container label {
+            margin-left: 10px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="toggle-container">
+    <label class="switch">
+        <input type="checkbox" onclick="toggleDarkMode()">
+        <span class="slider"></span>
+    </label>
+    <label></label>
+</div>
+
+<h1>A S C L E P I O</h1>
+<div class="container">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Componente</th>
+            <th>Respuesta</th>
+            <th>Puntaje</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Apertura ocular</td>
+            <td>
+                <select id="ocular">
+                    <option value="4">Espontánea</option>
+                    <option value="3">A la orden</option>
+                    <option value="2">Al dolor</option>
+                    <option value="1">Ninguna</option>
+                </select>
+            </td>
+            <td id="ocularScore">4</td>
+        </tr>
+        <tr>
+            <td>Respuesta verbal</td>
+            <td>
+                <select id="verbal">
+                    <option value="5">Orientada</option>
+                    <option value="4">Confusa</option>
+                    <option value="3">Inapropiada</option>
+                    <option value="2">Incomprensible</option>
+                    <option value="1">Ninguna</option>
+                </select>
+            </td>
+            <td id="verbalScore">5</td>
+        </tr>
+        <tr>
+            <td>Respuesta motora</td>
+            <td>
+                <select id="motora">
+                    <option value="6">Obedece órdenes</option>
+                    <option value="5">Localiza dolor</option>
+                    <option value="4">Retira al dolor</option>
+                    <option value="3">Flexión anormal</option>
+                    <option value="2">Extensión anormal</option>
+                    <option value="1">Ninguna</option>
+                </select>
+            </td>
+            <td id="motoraScore">6</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="result">Puntaje total: <span id="totalScore">15</span></div>
+
+<script>
+    document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('change', updateScores);
+    });
+
+    function updateScores() {
+        const ocularScore = parseInt(document.getElementById('ocular').value);
+        document.getElementById('ocularScore').textContent = ocularScore;
+
+        const verbalScore = parseInt(document.getElementById('verbal').value);
+        document.getElementById('verbalScore').textContent = verbalScore;
+
+        const motoraScore = parseInt(document.getElementById('motora').value);
+        document.getElementById('motoraScore').textContent = motoraScore;
+
+        const totalScore = ocularScore + verbalScore + motoraScore;
+        document.getElementById('totalScore').textContent = totalScore;
+    }
+
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+    }
+</script>
+
+</body>
+</html>
